@@ -16,13 +16,39 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $users = User::all();
         return UserResource::collection($users);
     }
 
-    public function store(Request $request)
+//    public function store(Request $request): JsonResponse
+//    {
+//        $validator = Validator::make($request->all(), [
+//            'name' => 'required',
+//            'lastname' => 'required',
+//            'email' => 'required|email',
+//            'password' => 'nullable',
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return response()->json(['message' => 'Incorrect data.'], 404);
+//        }
+//
+//        if ($request->input('id')) {
+//            $user = User::find($request->input('id'));
+//        } else {
+//            $user = new User;
+//        }
+//        $user->name = $request->input('name');
+//        $user->lastname = $request->input('lastname');
+//        $user->email = $request->input('email');
+//        $user->password = Hash::make($request->input('password'));
+//        $user->save();
+//
+//        return \response()->json(['message' => 'User added.'], 201);
+//    }
+    public function store(Request $request): JsonResponse
     {
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
@@ -32,24 +58,34 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => 'Incorrect data.'], 404);
+            return response()->json(['message' => 'Incorrect data.'], 400);
         }
 
-        if ($request->input('id')) {
-            $user = User::find($request->input('id'));
-        } else {
-            $user = new User;
+        $userData = [
+            'name' => $request->input('name'),
+            'lastname' => $request->input('lastname'),
+            'email' => $request->input('email'),
+        ];
+
+        // Check if password is provided before hashing
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->input('password'));
         }
-        $user->name = $request->input('name');
-        $user->lastname = $request->input('lastname');
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
+
+        $userId = $request->input('id');
+        $user = $userId ? User::find($userId) : new User;
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+        $user->fill($userData);
         $user->save();
 
-        return \response()->json(['message' => 'User added.'], 201);
+        return response()->json(['message' => 'User added.'], 201);
     }
 
-    public function show($id)
+    public function show($id): JsonResponse
     {
         $user = User::find($id);
         if (!empty($user)) {

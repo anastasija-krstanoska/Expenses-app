@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $categories = Category::all();
         return CategoryResource::collection($categories);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
@@ -41,7 +41,7 @@ class CategoryController extends Controller
         return \response()->json(['message' => 'Category added.'], 201);
     }
 
-    public function show($id)
+    public function show($id): JsonResponse
     {
         $category = Category::find($id);
         if (!empty($$category)) {

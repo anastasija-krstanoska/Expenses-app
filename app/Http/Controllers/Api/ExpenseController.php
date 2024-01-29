@@ -21,9 +21,9 @@ class ExpenseController extends Controller
         return ExpenseResource::collection($expenses);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        $validator = Validator::make(request()->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'price' => 'required',
             'user_id' => 'required',
@@ -31,7 +31,7 @@ class ExpenseController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => 'Incorrect data.'], 404);
+            return response()->json(['message' => 'Incorrect data.AAAAAAAAAAAAAA'], 404);
         }
 
         if ($request->input('id')) {
