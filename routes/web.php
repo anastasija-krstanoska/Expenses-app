@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 /*Route::resource('users', 'App\Http\Controllers\UserController.php');
 
 Route::resource('categories', 'App\Http\Controllers\CategoryController.php');

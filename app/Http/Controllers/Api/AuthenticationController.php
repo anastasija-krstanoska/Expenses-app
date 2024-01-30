@@ -69,50 +69,50 @@ class AuthenticationController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-//    public function login(Request $request): JsonResponse
-//    {
-//
-//        if (Auth::attempt($request->only(['email', 'password']))) {
-//                $user = Auth::user();
-//
-//                $token = $user->createToken("API TOKEN")->plainTextToken;
-//                $user->token=$token;
-//                $user->save();
-//
-//        }else{
-//                return response()->json([
-//                    'status' => false,
-//                    'message' => 'Email & Password does not match with our record.',
-//                ], 401);
-//            }
-//
-//
-//            return response()->json([
-//                'status' => false,
-//                'message' => 'Email & Password does not match with our record.',
-//                'user' => $user
-//            ], 401);
-//
-//    }
     public function login(Request $request): JsonResponse
     {
         if (Auth::attempt($request->only(['email', 'password']))) {
             $user = Auth::user();
+
             $token = $user->createToken("API TOKEN")->plainTextToken;
             $user->token = $token;
             $user->save();
 
+        } else {
             return response()->json([
-                'status' => true,
-                'message' => 'User Logged In Successfully',
-                'user' => $user,
-            ], 200);
+                'status' => false,
+                'message' => 'Email & Password does not match with our record.',
+            ], 401);
         }
+
 
         return response()->json([
             'status' => false,
             'message' => 'Email & Password does not match with our record.',
+            'user' => $user
         ], 401);
-    }
 
+    }
 }
+//    public function login(Request $request): JsonResponse
+//    {
+//        if (Auth::attempt($request->only(['email', 'password']))) {
+//            $user = Auth::user();
+//            $token = $user->createToken("API TOKEN")->plainTextToken;
+//            $user->token = $token;
+//            $user->save();
+//
+//            return response()->json([
+//                'status' => true,
+//                'message' => 'User Logged In Successfully',
+//                'user' => $user,
+//            ], 200);
+//        }
+//
+//        return response()->json([
+//            'status' => false,
+//            'message' => 'Email & Password does not match with our record.',
+//        ], 401);
+//    }
+//
+//}
