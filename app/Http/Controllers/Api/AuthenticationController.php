@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class UserTwoController extends Controller
+class AuthenticationController extends Controller
 {
     /**
      * Create User
@@ -29,7 +29,7 @@ class UserTwoController extends Controller
                     'password' => 'nullable',
                 ]);
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -39,15 +39,21 @@ class UserTwoController extends Controller
 
             $user = User::create([
                 'name' => $request->name,
-                'lastname'=>$request->lastname,
+                'lastname' => $request->lastname,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
 
+            $token = $user->createToken("API TOKEN")->plainTextToken;
+            $user->token = $token;
+
+            $user->save();
+
+
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+
             ], 200);
 
         } catch (\Throwable $th) {
@@ -63,43 +69,50 @@ class UserTwoController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function loginUser(Request $request)
+//    public function login(Request $request): JsonResponse
+//    {
+//
+//        if (Auth::attempt($request->only(['email', 'password']))) {
+//                $user = Auth::user();
+//
+//                $token = $user->createToken("API TOKEN")->plainTextToken;
+//                $user->token=$token;
+//                $user->save();
+//
+//        }else{
+//                return response()->json([
+//                    'status' => false,
+//                    'message' => 'Email & Password does not match with our record.',
+//                ], 401);
+//            }
+//
+//
+//            return response()->json([
+//                'status' => false,
+//                'message' => 'Email & Password does not match with our record.',
+//                'user' => $user
+//            ], 401);
+//
+//    }
+    public function login(Request $request): JsonResponse
     {
-        try {
-            $validateUser = Validator::make($request->all(),
-                [
-                    'email' => 'required|email',
-                    'password' => 'required'
-                ]);
-
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            if(!Auth::attempt($request->only(['email', 'password']))){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
-                ], 401);
-            }
-
-            $user = User::where('email', $request->email)->first();
+        if (Auth::attempt($request->only(['email', 'password']))) {
+            $user = Auth::user();
+            $token = $user->createToken("API TOKEN")->plainTextToken;
+            $user->token = $token;
+            $user->save();
 
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'user' => $user,
             ], 200);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
         }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Email & Password does not match with our record.',
+        ], 401);
     }
+
 }

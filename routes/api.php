@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserTwoController;
+use App\Http\Controllers\Api\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,36 +17,37 @@ use App\Http\Controllers\Api\UserTwoController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post('/auth/register', [UserTwoController::class, 'createUser']);
-Route::post('/auth/login', [UserTwoController::class, 'loginUser']);
+Route::post('register', [AuthenticationController::class, 'createUser']);
+Route::post('login', [AuthenticationController::class, 'login']);
 
 
-//od tuka
-//
-//Route::middleware(
-//    'auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-//
-////User
-////Route::apiResource('users', UserController::class);
-//Route::get('/users', [UserController::class, 'index']); //site users                OK
-//Route::get('/users/{id}', [UserController::class, 'show']); //konkreten korisnik    OK
-//Route::post('/users/store', [UserController::class, 'store']); //create,update      OK
-//Route::delete('/users/{id}', [UserController::class, 'destroy']); //delete          OK
-//
-//
-////Category
-//Route::get('/categories', [CategoryController::class, 'index']);
-//Route::get('/categories/{id}', [CategoryController::class, 'show']);
-//Route::post('/categories/store', [CategoryController::class, 'store']); //and update
-//Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
-//
-//
-////Expense
-//Route::get('/expenses', [ExpenseController::class, 'index']);
-//Route::get('/expenses/{id}', [ExpenseController::class, 'show']);
-//Route::post('/expenses/store', [ExpenseController::class, 'store']); //and update
-//Route::delete('/expenses/{id}', [ExpenseController::class, 'destroy']);
-//do tuka
 
+
+Route::middleware(
+    'auth:sanctum')->get('/user', function (Request $request) {
+
+    return $request->user();
+});
+
+//User
+//Route::apiResource('users', UserController::class);
+Route::get('/users', [UserController::class, 'index']); //site users                OK
+Route::get('/users/{id}', [UserController::class, 'show']); //konkreten korisnik    OK
+Route::post('/users/store', [UserController::class, 'store']); //create,update      OK
+Route::delete('/users/{id}', [UserController::class, 'destroy']); //delete          OK
+
+
+//Category
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+Route::post('/categories/store', [CategoryController::class, 'store']); //and update
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+
+
+//Expense
+Route::get('/expenses', [ExpenseController::class, 'index']);
+Route::get('/expenses/{id}', [ExpenseController::class, 'show']);
+Route::post('/expenses/store', [ExpenseController::class, 'store']); //and update
+Route::delete('/expenses/{id}', [ExpenseController::class, 'destroy']);
+
+//ako gi stavam vo midd vnatre vika 404 nf
