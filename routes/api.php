@@ -26,10 +26,13 @@ Route::middleware(['token'])->group(function () {
 
 //User
 //Route::apiResource('users', UserController::class);
-    Route::get('/users', [UserController::class, 'index']); //site users                OK
-    Route::get('/users/{id}', [UserController::class, 'show']); //konkreten korisnik    OK
-    Route::post('/users/store', [UserController::class, 'store']); //create,update      OK
-    Route::delete('/users/{id}', [UserController::class, 'destroy']); //delete          OK
+    Route::group(['prefix'=>'users'],function (){
+        Route::get('/', [UserController::class, 'index']); //site users                OK
+        Route::get('/{id}', [UserController::class, 'show']); //konkreten korisnik    OK
+        Route::post('/store', [UserController::class, 'store']); //create,update      OK
+        Route::delete('/{id}', [UserController::class, 'destroy']); //delete          OK
+    });
+
 
 
 //Category

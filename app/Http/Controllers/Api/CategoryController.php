@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controller;
+use App\Http\Controllers\Backend;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
@@ -22,7 +23,7 @@ class CategoryController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        dd($request->all());
+
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
         ]);
