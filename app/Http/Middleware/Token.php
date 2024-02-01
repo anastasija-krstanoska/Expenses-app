@@ -23,6 +23,7 @@ class Token
         if ($request->has('api_token')) {
             $request->headers->set('Authorization', $request->get('api_token'));
         }
+
         $user = User::whereToken($request->headers->get('authorization'))->first();
         if ($user && $user->token != null) {
             Auth::login($user);

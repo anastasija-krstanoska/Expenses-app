@@ -22,6 +22,7 @@ class CategoryController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        dd($request->all());
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
         ]);
