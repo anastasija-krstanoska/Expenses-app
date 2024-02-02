@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\Backend\AuthenticationController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ExpenseController;
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::post('/register', [AuthenticationController::class, 'createUser']);
+Route::get('/login', [AuthenticationController::class, 'login']);
 
 
 Route::group(['prefix' => 'users'], function () {

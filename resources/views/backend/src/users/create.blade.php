@@ -5,74 +5,79 @@
     <br/>
     <!-- End Row-->
     <div class="row">
-        <div class="col-lg-12 col-xl-6 col-md-12 col-sm-12">
+        <div class="col-lg-15 col-xl-6 col-md-15 col-sm-15">
             <div class="card">
                 <div class="card-header">
+
                     <h4 class="card-title">Add new user</h4>
                 </div>
-                <div class="card-body">
-                    <form>
-                        <div class="">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            </div>
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" name="example-checkbox2" value="option2">
-                                <span class="custom-control-label">Check me Out</span>
-                            </label>
+
+
+                <div class="col-lg-15 col-xl-6 col-md-15 col-sm-15">
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h4 class="card-title" @if($user != null) value="{!! $user->name !!}"@endif >Edit</h4>
                         </div>
-                        <button  class="btn btn-primary mt-4 mb-0">Submit</button>
-                    </form>
+                        <div class="card-body">
+
+                            <form class="create-user-form"
+                                  action="{{ $user ? url('/users/store/' . $user->id) : url('/users/store') }}"
+                                  method="POST">
+
+
+                                <div class=" row mb-4">
+                                    <label for="inputName" class="col-md-6 form-label">User Name</label>
+                                    <div class="col-md-14">
+                                        <input type="text" name="name" @if($user != null) value="{!! $user->name !!}"
+                                               @endif  class="form-control" id="inputName" placeholder="Name">
+                                    </div>
+                                </div>
+
+
+                                <div class=" row mb-4">
+                                    <label for="inputLastname" class="col-md-6 form-label">User Lastname</label>
+                                    <div class="col-md-14">
+                                        <input type="text" name="lastname"
+                                               @if($user != null) value="{!! $user->lastname !!}"
+                                               @endif class="form-control" id="inputLastname" placeholder="Lastname">
+                                    </div>
+                                </div>
+
+
+                                <div class=" row mb-4">
+                                    <label for="inputEmail" class="col-md-6 form-label">Email</label>
+                                    <div class="col-md-14">
+                                        <input type="email" name="email" @if($user != null) value="{!! $user->email !!}"
+                                               @endif  class="form-control" id="inputEmail" placeholder="Email">
+                                    </div>
+                                </div>
+
+                                <div class=" row mb-4">
+                                    <label for="inputPassword" class="col-md-6 form-label">Password</label>
+                                    <div class="col-md-14">
+                                        <input type="password" name="password"
+                                               @if($user != null) value="{!! $user->password !!}"
+                                               @endif class="form-control" id="inputPassword"
+                                               placeholder="Password">
+                                    </div>
+                                </div>
+
+
+                                @csrf
+                                <div class="card-footer text-right">
+                                    <button type="submit"
+                                            onclick="return confirm('Are you sure you want to edit this user?')"
+                                            class="btn btn-secondary mr-2"> Save
+                                    </button>
+                                    <button href="/users" class="btn btn-dark">Cancel</button>
+                                </div>
+
+                            </form>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-12 col-xl-6 col-md-12 col-sm-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Horizontal Form</h4>
-                </div>
-                <div class="card-body">
-                    <form class="form-horizontal">
-                        <div class=" row mb-4">
-                            <label for="inputName" class="col-md-3 form-label">User Name</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" id="inputName" placeholder="Name">
-                            </div>
-                        </div>
-                        <div class=" row mb-4">
-                            <label for="inputEmail3" class="col-md-3 form-label">Email</label>
-                            <div class="col-md-9">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class=" row mb-4">
-                            <label for="inputPassword3" class="col-md-3 form-label">Password</label>
-                            <div class="col-md-9">
-                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                            </div>
-                        </div>
-                        <div class="mb-0 row justify-content-end">
-                            <div class="col-md-9">
-                                <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="example-checkbox2" value="option2">
-                                    <span class="custom-control-label">Check me Out</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="mb-0 mt-4 row justify-content-end">
-                            <div class="col-md-9">
-                                <button  class="btn btn-primary">Sign in</button>
-                                <button  class="btn btn-secondary">Cancel</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
