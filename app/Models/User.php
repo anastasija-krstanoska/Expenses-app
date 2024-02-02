@@ -16,6 +16,13 @@ class User extends Model implements Authenticatable
 
     protected $fillable = ['name', 'lastname', 'email', 'password'];
 
+    public function run(): void
+    {
+        User::factory()
+            ->count(20)
+            ->create();
+    }
+
 }
 
 

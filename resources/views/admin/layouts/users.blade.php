@@ -47,6 +47,7 @@
                                 <th class="sorting">Id</th>
                                 <th class="nosort">Avatar</th>
                                 <th>Name</th>
+                                <th>Lastname</th>
                                 <th>Email</th>
 
                             </tr>
@@ -59,6 +60,7 @@
                                     <td><img src="{{asset('template/img/users/1.jpg')}}" class="table-user-thumb"
                                              alt=""></td>
                                     <td>{{ $user->name }}</td>
+                                    <td>{{ $user->lastname }}</td>
                                     <td>{{$user->email}}</td>
 
                                     <td>
@@ -66,8 +68,16 @@
                                             <a href="#"><i class="ik ik-eye"></i></a>
                                             <a href="/users/{{ $user->id }}/edit"><i class="ik ik-edit-2"></i></a>
 
-                                            <a href="#" onclick=""><i class="ik ik-trash-2"></i></a>
-                                            {{--todo:Delete with script--}}
+
+                                            <form id="delete-user-form-{{$user->id}}"
+                                                  action="{{ url('/users/' . $user->id . '/delete') }}" method="POST">
+                                                @csrf
+                                                <button type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this user?')">
+                                                    <i class="ik ik-trash-2"></i>
+                                                </button>
+                                            </form>
+
 
                                         </div>
                                     </td>

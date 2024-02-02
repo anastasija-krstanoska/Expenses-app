@@ -30,19 +30,23 @@
                 <div class="card">
                     <div class="card-header"><h3>Add new user</h3></div>
                     <div class="card-body">
-                        <form class="forms-sample">
+                        <form class="forms-sample" id="create-user-form" action="{{ url('/users/store') }}" method="POST">
                             <div class="form-group">
-                                <label for="exampleInputTitle">Name</label>
-                                <input type="text" class="form-control" id="exampleInputTitle" placeholder="Name" value=" ">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputSubtitle">Lastname</label>
-                                <input type="text" class="form-control" id="exampleInputSubtitle" placeholder="Name" value=" ">
+                                <label for="lastname">Lastname</label>
+                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="">
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputSubtitle">Email</label>
-                                <input type="text" class="form-control" id="exampleInputSubtitle" placeholder="Name" value=" ">
+                                <label for="email">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="">
                             </div>
 
                             <div class="form-group">
@@ -51,17 +55,20 @@
                                 <div class="input-group col-xs-12">
                                     <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
                                     <span class="input-group-append">
-                                                    <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                                                    </span>
+                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+
+            </span>
                                 </div>
                             </div>
-
+                            @csrf
+                            <div class="card-footer text-right">
+                                <button type="submit" onclick="return confirm('Are you sure you want to add this user?')"  class="btn btn-secondary mr-2"  > Save</button>
+                                <button class="btn btn-dark">Cancel</button>
+                            </div>
                         </form>
+
                     </div>
-                    <div class="card-footer text-right">
-                        <button type="submit" class="btn btn-secondary mr-2">Save</button>
-                        <button class="btn btn-dark">Cancel</button>
-                    </div>
+
                 </div>
 
             </div>

@@ -16,11 +16,8 @@ return new class extends Migration {
             $table->float('price');
             $table->unsignedBigInteger('user_id'); // Foreign key za korisnik
             $table->unsignedBigInteger('category_id'); // Foreign key za kategorija
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
-
-
-            $table->foreign('user_id')->references('id')->on('users');  //ref
-            $table->foreign('category_id')->references('id')->on('categories');  //ref
 
         });
 

@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Admin\UserControllerAdmin;
-use App\Models\Category;
-use App\Models\Expense;
-use App\Models\User;
+
+use App\Http\Controllers\Backend\AuthenticationController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ExpenseController;
+use App\Http\Controllers\Backend\UserControllerAdmin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,89 +18,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::post('/register', [AuthenticationController::class, 'createUser']);
+Route::get('/login', [AuthenticationController::class, 'login']);
+
+
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/', [UserControllerAdmin::class, 'index']); //site users                OK
+    Route::get('/show/{id?}', [UserControllerAdmin::class, 'show']);
+    Route::match(['get', 'post'], '/store/{id?}', [UserControllerAdmin::class, 'store']);
+    Route::post('/delete/{id}', [UserControllerAdmin::class, 'destroy']);
 });
 
-Route::get('/display', [UserControllerAdmin::class, 'index']); //site users                OK
-
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::group(['prefix' => 'categories'], function () {
+    Route::get('/', [CategoryController::class, 'index']); //site users                OK
+    Route::get('/show/{id?}', [CategoryController::class, 'show']);
+    Route::match(['get', 'post'], '/store/{id?}', [CategoryController::class, 'store']);
+    Route::post('/delete/{id}', [CategoryController::class, 'destroy']);
 });
 
-Route::get('/user', function () {
-    return view('user');
+// todo expenses controller
+Route::group(['prefix' => 'expenses'], function () {
+    Route::get('/', [ExpenseController::class, 'index']); //site users                OK
+    Route::get('/show/{id?}', [ExpenseController::class, 'show']);
+    Route::match(['get', 'post'], '/store/{id?}', [ExpenseController::class, 'store']);
+    Route::post('/delete/{id}', [ExpenseController::class, 'destroy']);
 });
-
-
-//USER
-//Route::get('/users', function () {
-//    return view('users', [
-//        'users' => User::all()
-//    ]);
-//});
-
-Route::get('/users', [UserControllerAdmin::class, 'index']); //site users                OK
-Route::get('/user/{user:id}',[UserControllerAdmin::class, 'show']);
-
-Route::get('/users/{user:id}/edit', function (User $user) {
-    return view('editUser', [
-        'user' => $user
-    ]);
-});
-
-
-Route::get('/users/create', function () {
-    return view('addUser');
-});
-
-Route::delete('/users/{id}', 'UserController@destroy')->name('users.destroy');
-
-
-//CATEGORY
-Route::get('/categories', function () {
-    return view('category', [
-        'categories' => Category::all()
-    ]);
-});
-Route::get('/categories/{category:id}/edit', function (Category $category) {
-    return view('editCategory', [
-        'category' => $category
-    ]);
-});
-
-Route::get('/categories/create', function () {
-    return view('addCategory');
-});
-
-//EXPENSE
-Route::get('/expenses', function () {
-    return view('expense', [
-        'expenses' => Expense::all()
-    ]);
-});
-
-Route::get('/expenses/{expense:id}/edit', function (Expense $expense) {
-    return view('editExpense',[
-        'expense' => $expense
-    ]);
-});
-Route::get('/expense/create', function () {
-    return view('addExpense');
-});
-
-
-Route::get('/test', function () {
-    return view('test');
-});
-
-
-
-
-/*Route::resource('users', 'App\Http\Controllers\UserController.php');
-
-Route::resource('categories', 'App\Http\Controllers\CategoryController.php');
-
-Route::resource('expenses', 'App\Http\Controllers\ExpenseController');*/
